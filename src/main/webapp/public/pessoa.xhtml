@@ -7,7 +7,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Pessoa</title>
+	<title>Cadastro de Pessoa</title>
 </h:head>
 
 <body>
@@ -15,40 +15,43 @@
 	<p:spacer />
 	<h:form id="formAdd">
 
-		<p:growl id="messages" severity="info, warn, error, fatal" autoUpdate="true" showDetail="true" />
+		<p:growl id="messages" severity="info, warn, error, fatal"
+			autoUpdate="true" showDetail="true" />
 
 		<p:focus context="addPessoa" />
 		<p:outputPanel id="addPessoa">
 
 			<p:panel header="Cadastro de Pessoa" style="width: 100%">
 
-				<h:panelGrid columns="2" cellpadding="5" cellspacing="2" style="margin-top: 10px">				
-					
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
+					style="margin-top: 10px">
+
 					<p:outputLabel for="nome" style="font-weight: bold" value="Nome: " />
-					<p:inputText id="nome" value="#{pessoaController.pessoa.nome}" 
-					requiredMessage="* Campo [Nome] &eacute; requerido"
-					required="true" size="50" />
-					
+					<p:inputText id="nome" value="#{pessoaController.pessoa.nome}"
+						requiredMessage="* Campo [Nome] &eacute; requerido"
+						required="true" size="50" />
+
 					<p:outputLabel for="cpf" style="font-weight: bold" value="CPF: " />
-					<p:inputText id="cpf" value="#{pessoaController.pessoa.cpf}" 
-					requiredMessage="* Campo [CPF] &eacute; requerido"
-					required="true" size="50" />
-					
-					<p:outputLabel for="endereco" style="font-weight: bold" value="Endereço: " />
-					<p:inputText id="endereco" value="#{pessoaController.pessoa.endereco}" 
-					requiredMessage="* Campo [Endereço] &eacute; requerido"
-					required="true" size="50" />
+					<p:inputText id="cpf" value="#{pessoaController.pessoa.cpf}"
+						requiredMessage="* Campo [CPF] &eacute; requerido" required="true"
+						size="50" />
+
+					<p:outputLabel for="endereco" style="font-weight: bold"
+						value="Endereço: " />
+					<p:inputText id="endereco"
+						value="#{pessoaController.pessoa.endereco}"
+						requiredMessage="* Campo [Endereço] &eacute; requerido"
+						required="true" size="50" />
 
 				</h:panelGrid>
 
 				<p:separator style="width:100%;" />
 
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
-					style="margin-bottom:10px;">
+					style="margin-bottom:10px">
 					<h:panelGroup>
 						<p:commandButton value="Salvar"
-							action="#{pessoaController.salvar}"
-							update="messages">
+							action="#{pessoaController.salvar}" update="messages">
 						</p:commandButton>
 					</h:panelGroup>
 				</h:panelGrid>
@@ -60,52 +63,63 @@
 	<p:separator style="width:100%;" />
 
 	<h:form id="formList">
-		<p:dataTable id="tblPessoa" var="pessoa"
+		<p:dataTable id="tblPessoa" var="pess"
 			value="#{pessoaController.pessoas}"
-			selection="#{pessoaController.pessoa}"
-            selectionMode="single"
-			rowKey="#{pessoa.id}" rows="100"
+			selection="#{pessoaController.pessoa}" selectionMode="single"
+			rowKey="#{pess.id}" rows="100"
 			emptyMessage="Nenhum registro encontrado">
 
-			<p:ajax event="rowSelect" listener="#{pessoaController.rowSelected}" update=":formList:tblPessoa" />
+			<p:ajax event="rowSelect" listener="#{pessoaController.rowSelected}"
+				update=":formList:tblPessoa" />
 
-			<f:facet name="header">Pessoas</f:facet>
+			<f:facet name="header">Pessoas Cadastradas</f:facet>
 
-			<p:column headerText="Nome" style="width: auto;" sortBy="#{pessoa.nome}">
-				<h:outputText value="#{pessoa.nome}" />
+			<p:column headerText="ID" style="width: 5%;" sortBy="#{pess.id}">
+				<h:outputText value="#{pess.id}" />
 			</p:column>
-			
-			<p:column headerText="CPF" style="width: auto;" sortBy="#{pessoa.cpf}">
-				<h:outputText value="#{pessoa.cpf}" />
+
+			<p:column headerText="Nome" style="width: auto;"
+				sortBy="#{pess.nome}">
+				<h:outputText value="#{pess.nome}" />
 			</p:column>
-			
-			<p:column headerText="Endereço" style="width: auto;" sortBy="#{pessoa.endereco}">
-				<h:outputText value="#{pessoa.endereco}" />
+
+			<p:column headerText="CPF" style="width: auto;" sortBy="#{pess.cpf}">
+				<h:outputText value="#{pess.cpf}" />
 			</p:column>
-			
+
+			<p:column headerText="Endereço" style="width: auto;"
+				sortBy="#{pess.endereco}">
+				<h:outputText value="#{pess.endereco}" />
+			</p:column>
+
 			<p:column style="text-align: center;">
 				<f:facet name="header">
 					<h:outputText value="Editar" />
 				</f:facet>
-				<p:commandButton action="#{pessoaController.selecionar(pessoa)}" icon="ui-icon-pencil">				    
+				<p:commandButton action="#{pessoaController.selecionar(pessoa)}"
+					icon="ui-icon-pencil">
 					<f:ajax render=":addPessoa :formAdd" execute="@form" />
 				</p:commandButton>
 			</p:column>
-			
+
 			<p:column style="text-align: center;">
 				<f:facet name="header">
 					<h:outputText value="Excluir" />
 				</f:facet>
-				<p:commandButton icon="ui-icon-trash" update=":formList:tblPessoa" 
-				type="button" onclick="PF('confirmDialog').show()" />  
-                <p:confirmDialog message="Deseja excluir o registro?" header="Aviso" severity="alert" widgetVar="confirmDialog">  
-                    <p:commandButton value="Sim" actionListener="#{pessoaController.excluir}" 
-                    oncomplete="PF('confirmDialog').hide()" update=":formList:tblPessoa" />  
-                    <p:commandButton value="Não" onclick="PF('confirmDialog').hide();" 
-                    type="button" update=":formList:tblPessoa" />
-                </p:confirmDialog>
+				<p:commandButton icon="ui-icon-trash" update=":formList:tblPessoa"
+					type="button" onclick="PF('confirmDialog').show()" />
+				<p:confirmDialog message="Deseja excluir o registro?" header="Aviso"
+					severity="alert" widgetVar="confirmDialog">
+					<p:commandButton value="Sim"
+						actionListener="#{pessoaController.excluir}"
+						oncomplete="PF('confirmDialog').hide()"
+						update=":formList:tblPessoa" />
+					<p:commandButton value="Não" onclick="PF('confirmDialog').hide();"
+						type="button" update=":formList:tblPessoa" />
+				</p:confirmDialog>
 			</p:column>
 		</p:dataTable>
 	</h:form>
+
 </body>
 </html>

@@ -38,9 +38,9 @@ public class PessoaController implements Serializable {
 
 	private List<Pessoa> pessoas = new ArrayList<Pessoa>();
 	private List<SelectItem> listaSelectPessoas;
-
+	
 	public PessoaController() {
-		}
+	}
 
 	@PostConstruct
 	public void init() {
@@ -68,7 +68,7 @@ public class PessoaController implements Serializable {
 	}
 
 	public void selecionar(Pessoa pessoa) {
-		pessoaService.clienteFindById(pessoa.getId());
+		pessoaService.pessoaFindById(pessoa.getId());
 	}
 
 	public void excluir() {
@@ -83,12 +83,13 @@ public class PessoaController implements Serializable {
 	}
 
 	public List<SelectItem> carregaComboPessoas() {
+
 		List<Pessoa> lista = pessoaService.ListarPessoas();
 		listaSelectPessoas = new ArrayList<SelectItem>();
 
 		listaSelectPessoas.clear();
-		for (Pessoa cli : lista) {
-			listaSelectPessoas.add(new SelectItem(cli, cli.getNome()));
+		for (Pessoa pess : lista) {
+			listaSelectPessoas.add(new SelectItem(pess, pess.getNome()));
 		}
 		return listaSelectPessoas;
 	}
@@ -101,8 +102,8 @@ public class PessoaController implements Serializable {
 		this.pessoas = pessoas;
 	}
 
-	public Object getRowKey(Pessoa cli) {
-		return cli.getId();
+	public Object getRowKey(Pessoa pess) {
+		return pess.getId();
 	}
 
 	public void rowSelected(SelectEvent<Pessoa> event) {
@@ -115,6 +116,6 @@ public class PessoaController implements Serializable {
 
 	private void limpar() {
 		pessoa = new Pessoa();
-	}
+	}	
 
 }

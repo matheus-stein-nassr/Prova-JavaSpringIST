@@ -29,7 +29,7 @@ public class PessoaService {
     	pessoaRepository.delete(pessoa);
     }
     
-    public void clienteFindById(Long id) {
+    public void pessoaFindById(Long id) {
         pessoaRepository.findById(id);
     }
 }
