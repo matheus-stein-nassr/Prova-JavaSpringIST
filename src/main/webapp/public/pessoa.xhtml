@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cadastro de Pessoa</title>
+</h:head>
+
+<body>
+	<ui:include src="menu.xhtml" />
+	<p:spacer />
+	<h:form id="formAdd">
+
+		<p:growl id="messages" severity="info, warn, error, fatal" autoUpdate="true" showDetail="true" />
+
+		<p:focus context="addCliente" />
+		<p:outputPanel id="addCliente">
+
+			<p:panel header="Cadastro de Pessoa" style="width: 100%">
+
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="2" style="margin-top: 10px">				
+					
+					<p:outputLabel for="nome" style="font-weight: bold" value="Nome: " />
+					<p:inputText id="nome" value="#{clienteController.cliente.nome}" 
+					requiredMessage="* Campo [Nome] &eacute; requerido"
+					required="true" size="50" />
+					
+					<p:outputLabel for="cpf" style="font-weight: bold" value="CPF: " />
+					<p:inputText id="cpf" value="#{clienteController.cliente.nome}" 
+					requiredMessage="* Campo [CPF] &eacute; requerido"
+					required="true" size="50" />
+					
+					<p:outputLabel for="endereco" style="font-weight: bold" value="Endereço: " />
+					<p:inputText id="endereco" value="#{clienteController.cliente.nome}" 
+					requiredMessage="* Campo [Endereço] &eacute; requerido"
+					required="true" size="50" />
+
+				</h:panelGrid>
+
+				<p:separator style="width:100%;" />
+
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
+					style="margin-bottom:10px;">
+					<h:panelGroup>
+						<p:commandButton value="Salvar"
+							action="#{clienteController.salvar}"
+							update="messages">
+						</p:commandButton>
+					</h:panelGroup>
+				</h:panelGrid>
+
+			</p:panel>
+		</p:outputPanel>
+	</h:form>
+
+	<p:separator style="width:100%;" />
+
+	<h:form id="formList">
+		<p:dataTable id="tblCliente" var="cli"
+			value="#{clienteController.clientes}"
+			selection="#{clienteController.cliente}"
+            selectionMode="single"
+			rowKey="#{cli.id}" rows="100"
+			emptyMessage="Nenhum registro encontrado">
+
+			<p:ajax event="rowSelect" listener="#{clienteController.rowSelected}" update=":formList:tblCliente" />
+
+			<f:facet name="header">Pessoas</f:facet>
+
+			<p:column headerText="Nome" style="width: auto;" sortBy="#{cli.nome}">
+				<h:outputText value="#{cli.nome}" />
+			</p:column>
+			
+			<p:column headerText="CPF" style="width: auto;" sortBy="#{cli.nome}">
+				<h:outputText value="#{cli.nome}" />
+			</p:column>
+			
+			<p:column headerText="Endereço" style="width: auto;" sortBy="#{cli.nome}">
+				<h:outputText value="#{cli.nome}" />
+			</p:column>
+			
+			<p:column style="text-align: center;">
+				<f:facet name="header">
+					<h:outputText value="Editar" />
+				</f:facet>
+				<p:commandButton action="#{clienteController.selecionar(cliente)}" icon="ui-icon-pencil">				    
+					<f:ajax render=":addCliente :formAdd" execute="@form" />
+				</p:commandButton>
+			</p:column>
+			
+			<p:column style="text-align: center;">
+				<f:facet name="header">
+					<h:outputText value="Excluir" />
+				</f:facet>
+				<p:commandButton icon="ui-icon-trash" update=":formList:tblCliente" 
+				type="button" onclick="PF('confirmDialog').show()" />  
+                <p:confirmDialog message="Deseja excluir o registro?" header="Aviso" severity="alert" widgetVar="confirmDialog">  
+                    <p:commandButton value="Sim" actionListener="#{clienteController.excluir}" 
+                    oncomplete="PF('confirmDialog').hide()" update=":formList:tblCliente" />  
+                    <p:commandButton value="Não" onclick="PF('confirmDialog').hide();" 
+                    type="button" update=":formList:tblCliente" />
+                </p:confirmDialog>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</body>
+</html>

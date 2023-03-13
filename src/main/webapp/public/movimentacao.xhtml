@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Movimentação</title>
+</h:head>
+
+<body>
+	<ui:include src="menu.xhtml" />
+	<p:spacer />
+	<h:form id="formAdd">
+
+		<p:panel header="Cadastro de Movimentação" style="width: 100%">
+
+			<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
+				style="margin-top: 10px">
+
+				<p:outputLabel for="pessoa" style="font-weight: bold" value="Pessoa" />
+					<p:selectOneMenu id="pessoa" value="#{vendaController.venda.cliente}" 
+						required="true"	requiredMessage="* Selecione uma Pessoa">
+						<f:selectItem itemValue="" itemLabel="-- Selecione a Pessoa --" />
+						<f:selectItems value="#{vendaController.carregaListaClientes()}"
+							var="cliente" itemLabel="#{pessoa.nome}" itemValue="pessoa" />
+					</p:selectOneMenu>
+
+				<p:outputLabel for="conta" style="font-weight: bold" value="Conta" />
+					<p:selectOneMenu id="conta" value="#{contaController.venda.cliente}" 
+						required="true"	requiredMessage="* Selecione uma Conta">
+						<f:selectItem itemValue="" itemLabel="-- Selecione a Conta --" />
+						<f:selectItems value="#{contaController.carregaListaContas()}"
+							var="conta" itemLabel="#{pessoa.conta}" itemValue="conta" />
+					</p:selectOneMenu>
+
+				<p:outputLabel for="valor" style="font-weight: bold"
+					value="Valor: " />
+				<p:inputText id="valor" value="#{clienteController.cliente.nome}"
+					requiredMessage="* Campo [Valor] &eacute; requerido"
+					required="true" size="20" />
+
+				<p:outputLabel for="depositarRetirar" style="font-weight: bold" value="Depositar/Retirar" />
+					<p:selectOneMenu id="depositarRetirar" value="#{vendaController.venda.cliente}" 
+						required="true"	requiredMessage="* Selecione Depositar ou Retirar">
+						<f:selectItem itemValue="" itemLabel="-- Selecione --" />
+						<f:selectItems value="Depositar"
+							var="cliente" itemLabel="#{pessoa.nome}" itemValue="pessoa" />
+					</p:selectOneMenu>
+			</h:panelGrid>
+
+			<p:separator style="width:100%;" />
+
+			<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
+				style="margin-bottom:10px;">
+				<h:panelGroup>
+					<p:commandButton value="Salvar"
+						action="#{clienteController.salvar}" update="">
+					</p:commandButton>
+				</h:panelGroup>
+			</h:panelGrid>
+
+		</p:panel>
+	</h:form>
+
+	<h:form id="formList">
+		<p:dataTable id="tblCliente" var="cli"
+			value="#{clienteController.clientes}"
+			selection="#{clienteController.cliente}" selectionMode="single"
+			rowKey="#{cli.id}" rows="100"
+			emptyMessage="Nenhum registro encontrado">
+
+			<p:ajax event="rowSelect" listener="#{clienteController.rowSelected}"
+				update=":formList:tblCliente" />
+
+			<f:facet name="header">Movimentações</f:facet>
+
+			<p:column headerText="Data" style="width: auto;" sortBy="#{cli.nome}">
+				<h:outputText value="#{cli.nome}" />
+			</p:column>
+
+			<p:column headerText="Valor" style="width: auto;" sortBy="#{cli.nome}">
+				<h:outputText value="#{cli.nome}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</body>
+</html>

@@ -10,7 +10,7 @@ public class RedirectConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/public/user.xhtml");
+        registry.addViewController("/").setViewName("forward:/public/pessoa.xhtml");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 }
