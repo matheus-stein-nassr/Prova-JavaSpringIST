@@ -82,3 +82,4 @@ qualquer outro serviço que esteja utilizando a porta 5432. Para verificar se o 
 [sts-mac]: https://download.springsource.com/release/STS4/4.11.0.RELEASE/dist/e4.20/spring-tool-suite-4-4.11.0.RELEASE-e4.20.0-macosx.cocoa.x86_64.dmg
 
 [lombok]: https://projectlombok.org/setup/eclipse
+# Prova-JavaSpringIST
