@@ -16,40 +16,49 @@
 	<p:spacer />
 	<h:form id="formAdd">
 
+		<p:growl id="messages" severity="info, warn, error, fatal"
+			autoUpdate="true" showDetail="true" />
+
 		<p:panel header="Cadastro de Movimentação" style="width: 100%">
 
 			<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
 				style="margin-top: 10px">
 
-				<p:outputLabel for="pessoa" style="font-weight: bold" value="Pessoa" />
-					<p:selectOneMenu id="pessoa" value="#{vendaController.venda.cliente}" 
-						required="true"	requiredMessage="* Selecione uma Pessoa">
-						<f:selectItem itemValue="" itemLabel="-- Selecione a Pessoa --" />
-						<f:selectItems value="#{vendaController.carregaListaClientes()}"
-							var="cliente" itemLabel="#{pessoa.nome}" itemValue="pessoa" />
-					</p:selectOneMenu>
+				<p:outputLabel for="pessoa" style="font-weight: bold"
+					value="Pessoa: " />
+				<p:selectOneMenu id="pessoa"
+					value="#{movimentacaoController.movimentacao.pessoa}"
+					required="true" requiredMessage="* Selecione uma Pessoa">
+					<f:selectItem itemValue="" itemLabel="-- Selecione a Pessoa --" />
+					<f:selectItems
+						value="#{movimentacaoController.carregaListaPessoas()}"
+						var="pessoa" itemLabel="#{pess.nome}" itemValue="#{pess.nome}" />
+				</p:selectOneMenu>
 
-				<p:outputLabel for="conta" style="font-weight: bold" value="Conta" />
-					<p:selectOneMenu id="conta" value="#{contaController.venda.cliente}" 
-						required="true"	requiredMessage="* Selecione uma Conta">
-						<f:selectItem itemValue="" itemLabel="-- Selecione a Conta --" />
-						<f:selectItems value="#{contaController.carregaListaContas()}"
-							var="conta" itemLabel="#{pessoa.conta}" itemValue="conta" />
-					</p:selectOneMenu>
+				<p:outputLabel for="conta" style="font-weight: bold" value="Conta: " />
+				<p:selectOneMenu id="conta"
+					value="#{movimentacaoController.movimentacao.pessoa}"
+					required="true" requiredMessage="* Selecione uma Conta">
+					<f:selectItem itemValue="" itemLabel="-- Selecione a Conta --" />
+					<f:selectItems
+						value="#{movimentacaoController.carregaListaPessoas()}"
+						var="pessoa" itemLabel="#{pess.nome}" itemValue="#{pess.nome}" />
+				</p:selectOneMenu>
 
-				<p:outputLabel for="valor" style="font-weight: bold"
-					value="Valor: " />
+				<p:outputLabel for="valor" style="font-weight: bold" value="Valor: " />
 				<p:inputText id="valor" value="#{clienteController.cliente.nome}"
 					requiredMessage="* Campo [Valor] &eacute; requerido"
 					required="true" size="20" />
 
-				<p:outputLabel for="depositarRetirar" style="font-weight: bold" value="Depositar/Retirar" />
-					<p:selectOneMenu id="depositarRetirar" value="#{vendaController.venda.cliente}" 
-						required="true"	requiredMessage="* Selecione Depositar ou Retirar">
-						<f:selectItem itemValue="" itemLabel="-- Selecione --" />
-						<f:selectItems value="Depositar"
-							var="cliente" itemLabel="#{pessoa.nome}" itemValue="pessoa" />
-					</p:selectOneMenu>
+				<p:outputLabel for="depositarRetirar" style="font-weight: bold"
+					value="Depositar/Retirar" />
+				<p:selectOneMenu id="depositarRetirar"
+					value="#{vendaController.venda.cliente}" required="true"
+					requiredMessage="* Selecione Depositar ou Retirar">
+					<f:selectItem itemValue="" itemLabel="-- Selecione --" />
+					<f:selectItems value="Depositar" var="cliente"
+						itemLabel="#{pessoa.nome}" itemValue="pessoa" />
+				</p:selectOneMenu>
 			</h:panelGrid>
 
 			<p:separator style="width:100%;" />
@@ -82,10 +91,15 @@
 				<h:outputText value="#{cli.nome}" />
 			</p:column>
 
-			<p:column headerText="Valor" style="width: auto;" sortBy="#{cli.nome}">
+			<p:column headerText="Valor" style="width: auto;"
+				sortBy="#{cli.nome}">
 				<h:outputText value="#{cli.nome}" />
 			</p:column>
 		</p:dataTable>
+		
+		<p:separator style="width:100%;" />
+		
+		<p:outputLabel style="font-weight: bold" value="Saldo: R$" />
 	</h:form>
 </body>
 </html>

@@ -25,6 +25,9 @@ import br.senai.sc.utils.FacesUtils;
 @ViewScoped
 @Controller
 public class ContaController implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private static final String PAGE_CONTA = "/public/conta.jsf";
+	
 	@Autowired
 	private ContaService contaService;
 
@@ -36,6 +39,7 @@ public class ContaController implements Serializable {
 
 	private List<Conta> contas = new ArrayList<Conta>();
 
+	private List<SelectItem> listaSelectContas;
 	private List<SelectItem> listaSelectPessoas;
 
 	public ContaController() {
@@ -61,6 +65,44 @@ public class ContaController implements Serializable {
 	public void setContas(List<Conta> contas) {
 		this.contas = contas;
 	}
+	
+	public void salvar() {
+		try {
+			this.conta = contaService.salvar(conta);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cadastro realizado com sucesso!"));
+			PrimeFaces.current().ajax().update("formAdd:addConta", "formList:tblConta");
+			limpar();
+			contas = contaService.ListarContas();
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void selecionar(Conta conta) {
+		contaService.contaFindById(conta.getId());
+	}
+	
+	public void excluir () {
+		try {
+			contaService.delete(conta);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro excluido com sucesso!"));
+			limpar();
+			init();
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public List<SelectItem> carregaComboContas() {
+		List<Conta> list = contaService.ListarContas();
+		listaSelectContas = new ArrayList<SelectItem>();
+
+		listaSelectContas.clear();
+		for (Conta cont : list) {
+			listaSelectContas.add(new SelectItem(cont, cont.getNumConta()));
+		}
+		return listaSelectContas;
+	}
 
 	public List<SelectItem> carregaListaPessoas() {
 		List<Pessoa> list = pessoaService.ListarPessoas();
@@ -71,5 +113,21 @@ public class ContaController implements Serializable {
 			listaSelectPessoas.add(new SelectItem(pess, pess.getNome()));
 		}
 		return listaSelectPessoas;
+	}
+	
+	public Object getRowKey(Conta cont) {
+		return cont.getId();
+	}
+	
+	public void rowSelected(SelectEvent<Conta> event) {
+		this.conta = (Conta) event.getObject();
+	}
+	
+	public void onRowUnselect(UnselectEvent<Conta> event) {
+		this.conta = (Conta) event.getObject();
+	}
+	
+	private void limpar() {
+		conta = new Conta();
 	}
 }

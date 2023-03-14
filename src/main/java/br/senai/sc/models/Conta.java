@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,11 +23,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-@EqualsAndHashCode
 @Entity
 @Table(name = "conta")
 public class Conta {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
@@ -40,6 +37,7 @@ public class Conta {
 	
 	@NotEmpty(message = "Campo obrigatório!")
 	@Size(max = 10)
-	private Integer conta;
+	@Column(name = "numConta", nullable = false, length = 10)
+	private String numConta;
 
 }

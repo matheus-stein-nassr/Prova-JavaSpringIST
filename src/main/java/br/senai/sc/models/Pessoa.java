@@ -38,7 +38,7 @@ public class Pessoa {
 	private String cpf;
 	
 	@NotEmpty(message = "Campo obrigatório!")
-	@Size(max = 200)
+	@Size(max = 500)
 	private String endereco;
 	
 	

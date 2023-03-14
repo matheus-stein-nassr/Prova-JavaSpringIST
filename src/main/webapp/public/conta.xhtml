@@ -19,38 +19,45 @@
 		<p:growl id="messages" severity="info, warn, error, fatal"
 			autoUpdate="true" showDetail="true" />
 
-		<p:panel header="Cadastro de Conta" style="width: 100%">
+		<p:focus context="addConta" />
+		<p:outputPanel id="addConta">
 
-			<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
-				style="margin-top: 10px">
+			<p:panel header="Cadastro de Conta" style="width: 100%">
 
-				<p:outputLabel for="pessoa" style="font-weight: bold" value="Pessoa: " />
-				
-					<p:selectOneMenu id="pessoa" value="#{contaController.conta.pessoa}" 
-						required="true"	requiredMessage="* Selecione uma Pessoa">
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
+					style="margin-top: 10px">
+
+					<p:outputLabel for="pessoa" style="font-weight: bold"
+						value="Pessoa: " />
+
+					<p:selectOneMenu id="pessoa"
+						value="#{contaController.conta.pessoa}" required="true"
+						requiredMessage="* Selecione uma Pessoa">
 						<f:selectItem itemValue="" itemLabel="-- Selecione a Pessoa --" />
 						<f:selectItems value="#{contaController.carregaListaPessoas()}"
 							var="pessoa" itemLabel="#{pess.nome}" itemValue="#{pess.nome}" />
 					</p:selectOneMenu>
 
-				<p:outputLabel for="numConta" style="font-weight: bold"
-					value="Numero da Conta: " />
-				<p:inputText id="numConta" value="#{contaController.conta.conta}"
-					requiredMessage="* Campo [Numero da Conta] &eacute; requerido"
-					required="true" size="50" />
-			</h:panelGrid>
+					<p:outputLabel for="conta" style="font-weight: bold"
+						value="Numero da Conta: " />
+					<p:inputText id="conta"
+						value="#{contaController.conta.numConta}"
+						requiredMessage="* Campo [Numero da Conta] &eacute; requerido"
+						required="true"/>
+				</h:panelGrid>
 
-			<p:separator style="width:100%;" />
+				<p:separator style="width:100%;" />
 
-			<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
-				style="margin-bottom:10px;">
-				<h:panelGroup>
-					<p:commandButton value="Salvar" action="#{contaController.salvar}">
-					</p:commandButton>
-				</h:panelGroup>
-			</h:panelGrid>
-
-		</p:panel>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="2"
+					style="margin-bottom:10px;">
+					<h:panelGroup>
+						<p:commandButton value="Salvar" action="#{contaController.salvar}"
+							update="messages">
+						</p:commandButton>
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:panel>
+		</p:outputPanel>
 	</h:form>
 
 	<h:form id="formList">
@@ -75,8 +82,8 @@
 			</p:column>
 
 			<p:column headerText="Numero da Conta" style="width: auto;"
-				sortBy="#{cont.conta}">
-				<h:outputText value="#{cont.conta}" />
+				sortBy="#{cont.numConta}">
+				<h:outputText value="#{cont.numConta}" />
 			</p:column>
 
 			<p:column style="text-align: center;">
